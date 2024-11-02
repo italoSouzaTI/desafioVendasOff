@@ -1,15 +1,29 @@
-import { ScrollView, StyleSheet, Text, TextInput, TextInputProps, TouchableOpacity, View } from "react-native";
+import {
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TextInputProps,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
 import { Controller, UseControllerProps } from "react-hook-form";
 interface InputProps {
-    error: string;
+    error?: string;
     label: string;
     dataItens: { label: string; value: string }[];
     formProps: UseControllerProps;
     restInput: TextInputProps;
 }
-export function Select({ label, dataItens, restInput, formProps, error = "" }: InputProps) {
+export function Select({
+    label,
+    dataItens,
+    restInput,
+    formProps,
+    error = "",
+}: InputProps) {
     const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
     return (
         <Controller
@@ -18,15 +32,30 @@ export function Select({ label, dataItens, restInput, formProps, error = "" }: I
                     <Text style={styles.title}>{label}</Text>
                     <TouchableOpacity
                         activeOpacity={1}
-                        style={[styles.containerInput, { borderColor: error.length > 0 ? "#DC1637" : "#E6E6E6" }]}
+                        style={[
+                            styles.containerInput,
+                            {
+                                borderColor:
+                                    error.length > 0 ? "#DC1637" : "#E6E6E6",
+                            },
+                        ]}
                         onPress={() => {
                             setIsOpenSelect((prevState) => !prevState);
                         }}
                     >
-                        <TextInput style={styles.input} value={field.value} {...restInput} editable={false} />
+                        <TextInput
+                            style={styles.input}
+                            value={field.value}
+                            {...restInput}
+                            editable={false}
+                        />
                         <AntDesign name="caretdown" size={18} color="#CDCDCD" />
                     </TouchableOpacity>
-                    <>{error.length > 0 && <Text style={styles.error}>{error}</Text>}</>
+                    <>
+                        {error.length > 0 && (
+                            <Text style={styles.error}>{error}</Text>
+                        )}
+                    </>
                     {isOpenSelect && (
                         <View style={styles.listSelect}>
                             <ScrollView
@@ -42,7 +71,9 @@ export function Select({ label, dataItens, restInput, formProps, error = "" }: I
                                         key={item.label}
                                         onPress={() => {
                                             field.onChange(item.value);
-                                            setIsOpenSelect((prevState) => !prevState);
+                                            setIsOpenSelect(
+                                                (prevState) => !prevState
+                                            );
                                         }}
                                     >
                                         <Text>{item.value}</Text>
@@ -82,6 +113,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderWidth: 1,
         borderRadius: 8,
+        borderColor: "#E6E6E6",
         position: "absolute",
         top: 98,
         zIndex: 99,

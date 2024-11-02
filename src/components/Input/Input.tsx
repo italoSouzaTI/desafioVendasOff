@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextInput, TextInputProps, View } from "react-native";
 import { Controller, UseControllerProps } from "react-hook-form";
 interface InputProps {
-    error: string;
+    error?: string;
     label: string;
     formProps: UseControllerProps;
     restInput: TextInputProps;

@@ -1,58 +1,25 @@
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import { Input, Select } from "../../../components";
-import { useSafeInsets } from "../../../hooks/useSafeInsets";
-import { useForm } from "react-hook-form";
+import { useCreatingSaleModelView } from "./useCreatingSaleModelView";
 export function CreatingSale() {
-    const { goBack } = useNavigation();
-    const { top } = useSafeInsets();
     const {
+        goBack,
+        top,
         control,
         handleSubmit,
-        formState: { errors },
-    } = useForm();
-    const fornecedorData = [
-        {
-            label: "BMB OFFICE CONSULTORIA LTDA",
-            value: "BMB OFFICE CONSULTORIA LTDA",
-        },
-        {
-            label: "SMART NEW SISTEMAS E TECNOLOGIAS",
-            value: "SMART NEW SISTEMAS E TECNOLOGIAS",
-        },
-        {
-            label: "HAWAB TECNOLOGIAS E EQUIPAMENTOS",
-            value: "HAWAB TECNOLOGIAS E EQUIPAMENTOS",
-        },
-    ];
-    const contasData = [
-        {
-            label: "CONTAS A PAGAR",
-            value: "CONTAS A PAGAR",
-        },
-        {
-            label: "CONTAS A RECEBER",
-            value: "CONTAS A RECEBER",
-        },
-    ];
-    const pagamentoData = [
-        {
-            label: "CARTÃO CREDITO",
-            value: "CARTÃO CREDITO",
-        },
-        {
-            label: "BOLETO",
-            value: "BOLETO",
-        },
-        {
-            label: "PIX",
-            value: "PIX",
-        },
-    ];
-    function handleSave(data: any) {
-        console.log("data", data);
-    }
+        errors,
+        fornecedorData,
+        contasData,
+        pagamentoData,
+        handleSave,
+    } = useCreatingSaleModelView();
     return (
         <>
             <View style={[styles.header, { paddingTop: top }]}>
@@ -149,8 +116,15 @@ export function CreatingSale() {
                     }}
                 />
             </ScrollView>
-            <TouchableOpacity style={styles.save} onPress={handleSubmit(handleSave)}>
-                <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>Salvar</Text>
+            <TouchableOpacity
+                style={styles.save}
+                onPress={handleSubmit(handleSave)}
+            >
+                <Text
+                    style={{ color: "white", fontSize: 20, fontWeight: "bold" }}
+                >
+                    Salvar
+                </Text>
             </TouchableOpacity>
         </>
     );

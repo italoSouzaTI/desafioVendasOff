@@ -1,46 +1,45 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 import { FloatButtom } from "../../../components";
-import { Card } from "../../../components/Card/Card";
-import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-export function Lists({ navigation }) {
-    const { navigate } = useNavigation();
+
+import { useListModelView } from "./useListModelView";
+import { CardList } from "./components/card/CardList";
+export function Lists() {
+    const { navigate, listSales } = useListModelView();
+    function rendetItem({ item }) {
+        return <CardList item={item} />;
+    }
+    function ListEmptyComponent() {
+        return (
+            <View style={styles.containerEmpaty}>
+                <Text style={styles.title}>
+                    Nenhum item cadastrado até o momento.
+                </Text>
+            </View>
+        );
+    }
+    function ItemSeparatorComponent() {
+        return (
+            <View
+                style={{
+                    width: "100%",
+                    height: 15,
+                }}
+            />
+        );
+    }
     return (
         <>
-            <ScrollView
+            <FlatList
                 contentContainerStyle={{
                     top: 32,
                     padding: 16,
                 }}
-            >
-                <Card>
-                    <View style={[styles.row, { justifyContent: "space-between" }]}>
-                        <View>
-                            <Text style={styles.title}>Fornecedor</Text>
-                            <Text style={styles.subTitle}>BMB OFFICE CONSULTORIA</Text>
-                        </View>
-                        <View style={[styles.row, { gap: 8 }]}>
-                            <FontAwesome5 name="database" size={16} color="green" />
-                            <MaterialIcons name="sync-disabled" size={16} color="gray" />
-                            {/* <MaterialIcons name="sync" size={16} color="gray" /> */}
-                        </View>
-                    </View>
-                    {/* <View>
-                        <Text style={styles.title}>Tipo</Text>
-                        <Text style={styles.subTitle}>CONTAS A PAGAR</Text>
-                    </View> */}
-                    <View style={[styles.row, { justifyContent: "space-between" }]}>
-                        <View>
-                            <Text style={styles.title}>Data vencimento</Text>
-                            <Text style={styles.subTitle}>30/09/2024</Text>
-                        </View>
-                        <View>
-                            <Text style={[styles.title, { textAlign: "right" }]}>Valor</Text>
-                            <Text style={styles.subTitle}>R$ 1.360,00</Text>
-                        </View>
-                    </View>
-                </Card>
-            </ScrollView>
+                data={listSales}
+                keyExtractor={(item) => String(item.id)}
+                renderItem={rendetItem}
+                ListEmptyComponent={ListEmptyComponent}
+                ItemSeparatorComponent={ItemSeparatorComponent}
+            />
             <FloatButtom
                 onPress={() => {
                     navigate("CreatingSale");
@@ -50,13 +49,12 @@ export function Lists({ navigation }) {
     );
 }
 const styles = StyleSheet.create({
+    containerEmpaty: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
     title: {
         fontWeight: "300",
-    },
-    subTitle: {
-        fontWeight: "600",
-    },
-    row: {
-        flexDirection: "row",
     },
 });
