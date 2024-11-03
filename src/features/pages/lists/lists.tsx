@@ -1,5 +1,5 @@
-import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
-import { FloatButtom } from "../../../components";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { Conection, FloatButtom } from "../../../components";
 
 import { useListModelView } from "./useListModelView";
 import { CardList } from "./components/card/CardList";
@@ -29,6 +29,7 @@ export function Lists() {
     }
     return (
         <>
+            <Conection />
             <FlatList
                 contentContainerStyle={{
                     top: 32,

@@ -4,17 +4,23 @@ import { MainStack } from "./src/routes/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { SQLiteProvider } from "expo-sqlite";
 import { initialDatabase } from "./src/database/initialDatabase";
+import NetInfoProvider from "./src/provider/NetInfoContext";
 
 export default function App() {
     return (
         <>
-            <SQLiteProvider databaseName="desafio.db" onInit={initialDatabase}>
-                <NavigationContainer>
-                    <SafeAreaProvider>
-                        <MainStack />
-                    </SafeAreaProvider>
-                </NavigationContainer>
-            </SQLiteProvider>
+            <NetInfoProvider>
+                <SQLiteProvider
+                    databaseName="desafio.db"
+                    onInit={initialDatabase}
+                >
+                    <NavigationContainer>
+                        <SafeAreaProvider>
+                            <MainStack />
+                        </SafeAreaProvider>
+                    </NavigationContainer>
+                </SQLiteProvider>
+            </NetInfoProvider>
         </>
     );
 }
@@ -27,3 +33,4 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
 });
+

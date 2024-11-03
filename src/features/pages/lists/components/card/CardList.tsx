@@ -2,12 +2,15 @@ import { StyleSheet, Text, View } from "react-native";
 import { Card } from "../../../../../components";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import { IDatabaseProps } from "../../../../../database/model/IDatabase";
+import { useNavigation } from "@react-navigation/native";
 interface CardListProps {
     item: IDatabaseProps;
 }
 export function CardList({ item }: CardListProps) {
+    const { navigate } = useNavigation();
+    console.log(item);
     return (
-        <Card>
+        <Card onPress={() => navigate("CreatingSale", { data: item })}>
             <View style={[styles.row, { justifyContent: "space-between" }]}>
                 <View>
                     <Text style={styles.title}>Fornecedor</Text>
@@ -15,7 +18,7 @@ export function CardList({ item }: CardListProps) {
                 </View>
                 <View style={[styles.row, { gap: 8 }]}>
                     <FontAwesome5 name="database" size={16} color="green" />
-                    {item.SYNC_STATUS ? (
+                    {item.SYNC_STATUS || item.sync_update ? (
                         <MaterialIcons
                             name="sync-disabled"
                             size={16}
