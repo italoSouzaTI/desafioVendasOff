@@ -1,8 +1,13 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { CreatingSale } from "../features/pages";
 import { Bottom } from "./bottom";
+import { IDatabaseProps } from "../database/model/IDatabase";
 
-const stack = createNativeStackNavigator();
+type RootStackParamList = {
+    Bottom: undefined;
+    CreatingSale: { data: IDatabaseProps };
+};
+const stack = createNativeStackNavigator<RootStackParamList>();
 export function MainStack() {
     return (
         <stack.Navigator
@@ -16,4 +21,3 @@ export function MainStack() {
         </stack.Navigator>
     );
 }
-

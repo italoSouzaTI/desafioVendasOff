@@ -11,7 +11,10 @@ export function useListModelView() {
     async function list() {
         try {
             const response = await getAll();
-            setListSales(response);
+            const newItens = response.filter(
+                (item) => item.sync_delete == false
+            );
+            setListSales(newItens);
         } catch (error) {}
     }
     useEffect(() => {

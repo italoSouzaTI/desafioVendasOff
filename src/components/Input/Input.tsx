@@ -1,5 +1,18 @@
-import { StyleSheet, Text, TextInput, TextInputProps, View } from "react-native";
-import { Controller, UseControllerProps } from "react-hook-form";
+import {
+    StyleSheet,
+    Text,
+    TextInput,
+    TextInputProps,
+    View,
+} from "react-native";
+import {
+    Controller,
+    ControllerRenderProps,
+    FieldValues,
+    UseControllerProps,
+} from "react-hook-form";
+import { price } from "../../hooks/usePrice";
+import { formatarData } from "../../hooks/formatData";
 interface InputProps {
     error?: string;
     label: string;
@@ -7,6 +20,18 @@ interface InputProps {
     restInput: TextInputProps;
 }
 export function Input({ label, restInput, formProps, error = "" }: InputProps) {
+    function handleOnChange(
+        field: ControllerRenderProps<FieldValues, string>,
+        value: string
+    ) {
+        if (field.name == "value_price") {
+            return price(value);
+        }
+        if (field.name == "maturity") {
+            return formatarData(value);
+        }
+        return value;
+    }
     return (
         <Controller
             render={({ field }) => (
@@ -14,17 +39,29 @@ export function Input({ label, restInput, formProps, error = "" }: InputProps) {
                     <View style={styles.container}>
                         <Text style={styles.title}>{label}</Text>
                         <View
-                            style={[styles.containerInput, { borderColor: error.length > 0 ? "#DC1637" : "#E6E6E6" }]}
+                            style={[
+                                styles.containerInput,
+                                {
+                                    borderColor:
+                                        error.length > 0
+                                            ? "#DC1637"
+                                            : "#E6E6E6",
+                                },
+                            ]}
                         >
                             <TextInput
                                 style={styles.input}
                                 value={field.value}
-                                onChangeText={field.onChange}
+                                onChangeText={(value) =>
+                                    field.onChange(handleOnChange(field, value))
+                                }
                                 {...restInput}
                             />
                         </View>
                     </View>
-                    {error.length > 0 && <Text style={styles.error}>{error}</Text>}
+                    {error.length > 0 && (
+                        <Text style={styles.error}>{error}</Text>
+                    )}
                 </>
             )}
             {...formProps}

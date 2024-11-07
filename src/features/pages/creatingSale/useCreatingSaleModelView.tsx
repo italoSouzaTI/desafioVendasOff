@@ -3,19 +3,20 @@ import { useSafeInsets } from "../../../hooks/useSafeInsets";
 import { useForm } from "react-hook-form";
 import { useSalesDatabase } from "../../../database/useSalesDatabase";
 import { IDatabaseProps } from "../../../database/model/IDatabase";
+import { deviceName, manufacturer } from "expo-device";
 import { Alert } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 interface SCHEMA {
-    fornecedor: string;
-    tipoConta: string;
-    pagamento: string;
-    vencimento: string;
-    valor: number;
+    supplier: string;
+    account_type: string;
+    payment: string;
+    maturity: string;
+    value_price: string;
 }
 export function useCreatingSaleModelView() {
     const { goBack } = useNavigation();
     const { top } = useSafeInsets();
-    const { create, update, remove } = useSalesDatabase();
+    const { create, update, remove, removeLogic } = useSalesDatabase();
     const { params } = useRoute();
     const [isEdit, setIsEdit] = useState(false);
     const fornecedorData = [
@@ -60,13 +61,14 @@ export function useCreatingSaleModelView() {
         control,
         handleSubmit,
         formState: { errors },
+        setValue,
     } = useForm<SCHEMA>({
         defaultValues: {
-            fornecedor: params && params.data ? params.data.fornecedor : "",
-            tipoConta: params && params.data ? params.data.tipo : "",
-            pagamento: params && params.data ? params.data.pagamento : "",
-            vencimento: params && params.data ? params.data.vencimento : "",
-            valor: params && params.data ? params.data.valor : 0,
+            supplier: params?.data?.supplier || "",
+            account_type: params?.data?.account_type || "",
+            payment: params?.data?.payment || "",
+            maturity: params?.data?.maturity || "",
+            value_price: params?.data?.value_price || "0",
         },
     });
     async function handleSave(data: any) {
@@ -79,19 +81,22 @@ export function useCreatingSaleModelView() {
     async function handleSabeDB(
         data: Omit<
             IDatabaseProps,
-            "id" | "at_create" | "SYNC_STATUS" | "sync_update" | "sync_delete"
+            "id" | "at_create" | "sync_status" | "sync_update" | "sync_delete"
         >
     ) {
+        console.log("entrei");
         try {
             const response = await create({
-                fornecedor: data.fornecedor,
-                tipo: data.tipoConta,
-                pagamento: data.pagamento,
-                valor: data.valor,
-                vencimento: data.vencimento,
+                supplier: data.supplier,
+                id_api: "",
+                id_device: `${deviceName} - ${manufacturer}`,
+                account_type: data.account_type,
+                payment: data.payment,
+                maturity: data.maturity,
+                value_price: String(data.value_price),
                 at_create: String(new Date()),
                 sync_delete: false,
-                SYNC_STATUS: true,
+                sync_status: true,
                 sync_update: false,
             });
             Alert.alert(
@@ -102,17 +107,18 @@ export function useCreatingSaleModelView() {
         } catch (error) {}
     }
     async function handleEdit(data: IDatabaseProps) {
-        console.log(data);
         const response = await update({
             id: Number(params.data.id),
-            fornecedor: data.fornecedor,
-            tipo: data.tipoConta,
-            pagamento: data.pagamento,
-            valor: data.valor,
-            vencimento: data.vencimento,
+            supplier: data.supplier,
+            id_api: data.id_api ?? "",
+            id_device: data.id_device,
+            account_type: data.account_type,
+            payment: data.payment,
+            value_price: String(data.value_price),
+            maturity: data.maturity,
             at_create: String(new Date()),
             sync_delete: params.data.sync_delete,
-            SYNC_STATUS: params.data.SYNC_STATUS,
+            sync_status: true,
             sync_update: true,
         });
         Alert.alert(`Sucesso`, "registro alterado com sucesso.", [
@@ -121,18 +127,38 @@ export function useCreatingSaleModelView() {
     }
     async function handleRemove() {
         try {
+            console.log(params.data);
             Alert.alert(`Atenção`, "Deseja realmente deletar esse recibo?", [
                 { text: "Cancelar", style: "cancel" },
                 {
                     text: "OK",
                     onPress: async () => {
-                        await remove(Number(params.data.id));
+                        await removeLogic({
+                            id: Number(params.data.id),
+                            supplier: params.data.supplier,
+                            id_api: params.data.id_api ?? "",
+                            id_device: params.data.id_device,
+                            account_type: params.data.account_type,
+                            payment: params.data.payment,
+                            value_price: params.data.value_price,
+                            maturity: params.data.maturity,
+                            at_create: params.data.at_create,
+                            sync_delete: true,
+                            sync_status: true,
+                            sync_update: params.data.sync_update,
+                        });
                         goBack();
                     },
                 },
             ]);
         } catch (error) {}
     }
+
+    useEffect(() => {
+        if (params?.data.value_price) {
+            setValue("value_price", params.data.valor);
+        }
+    }, [params?.data.value_price]);
 
     return {
         params,

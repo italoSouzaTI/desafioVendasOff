@@ -12,7 +12,8 @@ export function useListSyncModelView() {
         try {
             const response = await getAll();
             const newData = response.filter(
-                (item) => item.SYNC_STATUS || item.sync_update
+                (item) =>
+                    item.SYNC_STATUS || item.sync_update || item.sync_delete
             );
             setListSales(newData);
         } catch (error) {}

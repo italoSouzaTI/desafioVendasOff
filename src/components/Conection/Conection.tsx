@@ -35,9 +35,8 @@ export function Conection() {
 const styles = StyleSheet.create({
     container: {
         width: "100%",
-        minHeight: 60,
+        minHeight: 40,
         justifyContent: "center",
         alignItems: "center",
-        paddingBottom: 10,
     },
 });

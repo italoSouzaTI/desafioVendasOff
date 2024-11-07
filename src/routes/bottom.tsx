@@ -8,10 +8,28 @@ export function Bottom() {
             initialRouteName="Lists"
             screenOptions={{
                 headerShown: false,
+                tabBarIconStyle: { display: "none" },
+                tabBarLabelStyle: {
+                    fontWeight: "7500",
+                    fontSize: 15,
+                    paddingBottom: 15,
+                },
             }}
         >
-            <stackBottom.Screen name="Lists" component={Lists} />
-            <stackBottom.Screen name="ListSync" component={ListSync} />
+            <stackBottom.Screen
+                options={{
+                    tabBarLabel: "Home",
+                }}
+                name="Lists"
+                component={Lists}
+            />
+            <stackBottom.Screen
+                options={{
+                    tabBarLabel: "Lista de sincronização",
+                }}
+                name="ListSync"
+                component={ListSync}
+            />
         </stackBottom.Navigator>
     );
 }

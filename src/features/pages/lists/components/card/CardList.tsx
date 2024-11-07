@@ -8,15 +8,18 @@ interface CardListProps {
 }
 export function CardList({ item }: CardListProps) {
     const { navigate } = useNavigation();
-    console.log(item);
     return (
         <Card onPress={() => navigate("CreatingSale", { data: item })}>
             <View style={[styles.row, { justifyContent: "space-between" }]}>
                 <View>
                     <Text style={styles.title}>Fornecedor</Text>
-                    <Text style={styles.subTitle}>{item.fornecedor}</Text>
+                    <Text style={styles.subTitle}>{item.supplier}</Text>
                 </View>
                 <View style={[styles.row, { gap: 8 }]}>
+                    {item.sync_delete && (
+                        <FontAwesome5 name="trash" size={16} color="red" />
+                    )}
+
                     <FontAwesome5 name="database" size={16} color="green" />
                     {item.SYNC_STATUS || item.sync_update ? (
                         <MaterialIcons
@@ -31,22 +34,22 @@ export function CardList({ item }: CardListProps) {
             </View>
             <View>
                 <Text style={styles.title}>Tipo da conta</Text>
-                <Text style={styles.subTitle}>{item.tipo}</Text>
+                <Text style={styles.subTitle}>{item.account_type}</Text>
             </View>
             <View>
                 <Text style={styles.title}>Tipo pagamento</Text>
-                <Text style={styles.subTitle}>{item.pagamento}</Text>
+                <Text style={styles.subTitle}>{item.payment}</Text>
             </View>
             <View style={[styles.row, { justifyContent: "space-between" }]}>
                 <View>
                     <Text style={styles.title}>Data vencimento</Text>
-                    <Text style={styles.subTitle}>{item.vencimento}</Text>
+                    <Text style={styles.subTitle}>{item.maturity}</Text>
                 </View>
                 <View>
                     <Text style={[styles.title, { textAlign: "right" }]}>
                         Valor
                     </Text>
-                    <Text style={styles.subTitle}>R$ {item.valor}</Text>
+                    <Text style={styles.subTitle}> {item.value_price}</Text>
                 </View>
             </View>
         </Card>

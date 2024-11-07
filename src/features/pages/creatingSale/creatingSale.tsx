@@ -6,9 +6,11 @@ import {
     View,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { Input, Select } from "../../../components";
+import { Conection, Input, Select } from "../../../components";
 import { useCreatingSaleModelView } from "./useCreatingSaleModelView";
 import { StatusAction } from "./components/StatusAction/StatusAction";
+import { price } from "../../../hooks/usePrice";
+import { formatDateGenerate } from "../../../hooks/formatData";
 export function CreatingSale() {
     const {
         params,
@@ -25,9 +27,9 @@ export function CreatingSale() {
         handleSave,
         setIsEdit,
     } = useCreatingSaleModelView();
-    console.log(params);
     return (
         <>
+            <Conection />
             {params && !isEdit ? (
                 <View
                     style={{
@@ -58,32 +60,50 @@ export function CreatingSale() {
                             />
                         </TouchableOpacity>
                     </View>
-                    <StatusAction
-                        actionEdit={() => setIsEdit((prevState) => !prevState)}
-                        actionDelete={handleRemove}
-                    />
+                    {!params.data.sync_delete && (
+                        <StatusAction
+                            actionEdit={() =>
+                                setIsEdit((prevState) => !prevState)
+                            }
+                            actionDelete={handleRemove}
+                        />
+                    )}
+
                     <Text style={[styles.title, { textAlign: "center" }]}>
                         -------------- RECIBO --------------
                     </Text>
+                    <Text
+                        style={{
+                            fontWeight: "600",
+                            fontSize: 16,
+                            color: "#dc143c",
+                            textAlign: "center",
+                            backgroundColor: "#e897a6",
+                            padding: 2,
+                            borderRadius: 4,
+                        }}
+                    >
+                        Nota removida do sistema
+                    </Text>
                     <View>
                         <Text style={styles.title}>Fornecedor</Text>
-                        <Text>{params.data.fornecedor}</Text>
+                        <Text>{params.data.supplier}</Text>
                     </View>
                     <View>
                         <Text style={styles.title}>Tipo da conta</Text>
-                        <Text>{params.data.tipo}</Text>
+                        <Text>{params.data.account_type}</Text>
                     </View>
                     <View>
                         <Text style={styles.title}>Tipo do pagamento</Text>
-                        <Text>{params.data.pagamento}</Text>
+                        <Text>{params.data.payment}</Text>
                     </View>
                     <View>
                         <Text style={styles.title}>Valor</Text>
-                        <Text>{params.data.valor}</Text>
+                        <Text>{price(params.data.value_price)}</Text>
                     </View>
                     <View>
                         <Text style={styles.title}>Vencimento</Text>
-                        <Text>{params.data.vencimento}</Text>
+                        <Text>{params.data.maturity}</Text>
                     </View>
                     <Text style={[styles.title, { textAlign: "center" }]}>
                         -----------------------------------------------------------
@@ -92,7 +112,19 @@ export function CreatingSale() {
                         <Text
                             style={[{ textAlign: "right", paddingRight: 16 }]}
                         >
-                            <Text>Gerado em : {params.data.at_create}</Text>
+                            <Text>
+                                Gerado em :{" "}
+                                <Text
+                                    style={{
+                                        color: "#808080",
+                                        fontWeight: "700",
+                                    }}
+                                >
+                                    {formatDateGenerate(
+                                        new Date(params.data.at_create)
+                                    )}
+                                </Text>
+                            </Text>
                         </Text>
                     </View>
                 </View>
@@ -122,9 +154,9 @@ export function CreatingSale() {
                     >
                         <Select
                             label="Fornecedor"
-                            error={errors.fornecedor?.message}
+                            error={errors.supplier?.message}
                             formProps={{
-                                name: "fornecedor",
+                                name: "supplier",
                                 control,
                                 rules: {
                                     required:
@@ -138,9 +170,9 @@ export function CreatingSale() {
                         />
                         <Select
                             label="Tipo"
-                            error={errors.tipoConta?.message}
+                            error={errors.account_type?.message}
                             formProps={{
-                                name: "tipoConta",
+                                name: "account_type",
                                 control,
                                 rules: {
                                     required:
@@ -154,9 +186,9 @@ export function CreatingSale() {
                         />
                         <Select
                             label="Meio de pagamento"
-                            error={errors.pagamento?.message}
+                            error={errors.payment?.message}
                             formProps={{
-                                name: "pagamento",
+                                name: "payment",
                                 control,
                                 rules: {
                                     required:
@@ -170,9 +202,9 @@ export function CreatingSale() {
                         />
                         <Input
                             label="Data de vencimento"
-                            error={errors.vencimento?.message}
+                            error={errors.maturity?.message}
                             formProps={{
-                                name: "vencimento",
+                                name: "maturity",
                                 control,
                                 rules: {
                                     required:
@@ -186,9 +218,9 @@ export function CreatingSale() {
                         />
                         <Input
                             label="Valor"
-                            error={errors.valor?.message}
+                            error={errors.value_price?.message}
                             formProps={{
-                                name: "valor",
+                                name: "value_price",
                                 control,
                                 rules: {
                                     required: "Campo valor é obrigatorio.",
@@ -224,7 +256,7 @@ const styles = StyleSheet.create({
         width: "100%",
         minHeight: 50,
         backgroundColor: "white",
-        padding: 16,
+        paddingHorizontal: 16,
         alignItems: "center",
         gap: 16,
         flexDirection: "row",

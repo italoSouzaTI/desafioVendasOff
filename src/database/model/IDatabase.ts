@@ -1,12 +1,14 @@
 export interface IDatabaseProps {
     id: number;
-    fornecedor: string;
-    tipo: string;
-    pagamento: number;
-    vencimento: string;
-    valor: number;
+    id_api?: string;
+    id_device: string;
+    supplier: string;
+    account_type: string;
+    payment: number;
+    maturity: string;
+    value_price: string;
     at_create: string;
-    SYNC_STATUS: boolean;
+    sync_status: boolean;
     sync_update: boolean;
     sync_delete: boolean;
 }

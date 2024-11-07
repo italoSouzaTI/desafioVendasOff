@@ -4,7 +4,7 @@ import { useListSyncModelView } from "./useListSyncModelView";
 import { CardList } from "../lists/components/card/CardList";
 
 export function ListSync() {
-    const { navigate, listSales } = useListSyncModelView();
+    const { listSales } = useListSyncModelView();
     function rendetItem({ item }) {
         return <CardList item={item} />;
     }
@@ -12,7 +12,7 @@ export function ListSync() {
         return (
             <View style={styles.containerEmpaty}>
                 <Text style={styles.title}>
-                    Nenhum item cadastrado até o momento.
+                    Nenhum item a ser sincronizado no momento.
                 </Text>
             </View>
         );
