@@ -1,11 +1,12 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSafeInsets } from "../../../hooks/useSafeInsets";
 import { useForm } from "react-hook-form";
-import { useSalesDatabase } from "../../../database/useSalesDatabase";
-import { IDatabaseProps } from "../../../database/model/IDatabase";
+
 import { deviceName, manufacturer } from "expo-device";
 import { Alert } from "react-native";
 import { useEffect, useState } from "react";
+import { useSalesDatabase } from "../../../core/database/useSalesDatabase";
+import { IDatabaseProps } from "../../../core/database/model/IDatabase";
 interface SCHEMA {
     supplier: string;
     account_type: string;

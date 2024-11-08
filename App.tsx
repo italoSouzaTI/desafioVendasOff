@@ -3,8 +3,9 @@ import { StyleSheet } from "react-native";
 import { MainStack } from "./src/routes/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { SQLiteProvider } from "expo-sqlite";
-import { initialDatabase } from "./src/database/initialDatabase";
 import NetInfoProvider from "./src/provider/NetInfoContext";
+import { initialDatabase } from "./src/core/database/initialDatabase";
+import { ModalSync } from "./src/components/modalSync/ModalSync";
 
 export default function App() {
     return (
@@ -17,6 +18,7 @@ export default function App() {
                     <NavigationContainer>
                         <SafeAreaProvider>
                             <MainStack />
+                            <ModalSync />
                         </SafeAreaProvider>
                     </NavigationContainer>
                 </SQLiteProvider>
@@ -33,4 +35,3 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
 });
-

@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Card } from "../../../../../components";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import { IDatabaseProps } from "../../../../../database/model/IDatabase";
 import { useNavigation } from "@react-navigation/native";
+import { IDatabaseProps } from "../../../../../core/database/model/IDatabase";
 interface CardListProps {
     item: IDatabaseProps;
 }

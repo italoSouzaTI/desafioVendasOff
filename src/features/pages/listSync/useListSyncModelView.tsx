@@ -1,20 +1,18 @@
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { IDatabaseProps } from "../../../database/model/IDatabase";
-import { useSalesDatabase } from "../../../database/useSalesDatabase";
+import { IDatabaseProps } from "../../../core/database/model/IDatabase";
+import { useSalesDatabase } from "../../../core/database/useSalesDatabase";
+import { useRequestLists } from "../../request";
+
 export function useListSyncModelView() {
     const { navigate } = useNavigation();
     const isFocused = useIsFocused();
     const [listSales, setListSales] = useState<IDatabaseProps[]>([]);
-    const { getAll } = useSalesDatabase();
+    const { getlistSalesSync } = useRequestLists();
 
     async function list() {
         try {
-            const response = await getAll();
-            const newData = response.filter(
-                (item) =>
-                    item.SYNC_STATUS || item.sync_update || item.sync_delete
-            );
+            const newData = await getlistSalesSync();
             setListSales(newData);
         } catch (error) {}
     }
