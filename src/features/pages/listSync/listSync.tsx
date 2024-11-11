@@ -34,6 +34,7 @@ export function ListSync() {
                 contentContainerStyle={{
                     top: 32,
                     padding: 16,
+                    paddingBottom: 50,
                 }}
                 data={listSales}
                 keyExtractor={(item) => String(item.id)}

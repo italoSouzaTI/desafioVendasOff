@@ -5,7 +5,7 @@ export function useSalesDatabase() {
     const database = useSQLiteContext();
     async function create(data: Omit<IDatabaseProps, "id">) {
         const statement = await database.prepareAsync(
-            "INSERT INTO sales (supplier,id_api,id_device,account_type,payment,maturity,value_price,at_create,sync_status,sync_update,sync_delete) VALUES ($supplier,$id_api,$id_device,$account_type,$payment,$maturity,$value_price,$at_create,$sync_status,$sync_update,$sync_delete)"
+            "INSERT INTO sales (supplier,id_api,id_device,account_type,payment,maturity,value_price,at_create,sync_status,sync_update,sync_delete,is_sync) VALUES ($supplier,$id_api,$id_device,$account_type,$payment,$maturity,$value_price,$at_create,$sync_status,$sync_update,$sync_delete,$is_sync)"
         );
         try {
             const result = await statement.executeAsync({
@@ -20,6 +20,7 @@ export function useSalesDatabase() {
                 $sync_status: data.sync_status,
                 $sync_update: data.sync_update,
                 $sync_delete: data.sync_delete,
+                $is_sync: data.is_sync,
             });
             const insertRowId = result.lastInsertRowId.toLocaleString();
             return { insertRowId };
@@ -31,10 +32,10 @@ export function useSalesDatabase() {
     }
     async function update(data: IDatabaseProps) {
         const statement = await database.prepareAsync(
-            "UPDATE sales SET supplier=$supplier,account_type=$account_type,payment=$payment,maturity=$maturity,value_price=$value_price,at_create=$at_create,sync_status=$sync_status,sync_update=$sync_update,sync_delete=$sync_delete WHERE id=$id"
+            "UPDATE sales SET supplier=$supplier,id_api=$id_api,id_device=$id_device,account_type=$account_type,payment=$payment,maturity=$maturity,value_price=$value_price,at_create=$at_create,sync_status=$sync_status,sync_update=$sync_update,sync_delete=$sync_delete,is_sync=$is_sync WHERE id=$id"
         );
         try {
-            await statement.executeAsync({
+            const reponse = await statement.executeAsync({
                 $id: data.id,
                 $id_api: data.id_api,
                 $id_device: data.id_device,
@@ -47,7 +48,9 @@ export function useSalesDatabase() {
                 $sync_status: data.sync_status,
                 $sync_update: data.sync_update,
                 $sync_delete: data.sync_delete,
+                $is_sync: data.is_sync,
             });
+            return reponse;
         } catch (error) {
             throw error;
         } finally {
@@ -72,7 +75,7 @@ export function useSalesDatabase() {
     }
     async function removeLogic(data: IDatabaseProps) {
         const statement = await database.prepareAsync(
-            "UPDATE sales SET supplier=$supplier,account_type=$account_type,payment=$payment,maturity=$maturity,value_price=$value_price,at_create=$at_create,sync_status=$sync_status,sync_update=$sync_update,sync_delete=$sync_delete WHERE id=$id"
+            "UPDATE sales SET supplier=$supplier,account_type=$account_type,payment=$payment,maturity=$maturity,value_price=$value_price,at_create=$at_create,sync_status=$sync_status,sync_update=$sync_update,sync_delete=$sync_delete,is_sync=$is_sync WHERE id=$id"
         );
         try {
             await statement.executeAsync({
@@ -88,6 +91,7 @@ export function useSalesDatabase() {
                 $sync_status: data.sync_status,
                 $sync_update: data.sync_update,
                 $sync_delete: data.sync_delete,
+                $is_sync: data.is_sync,
             });
         } catch (error) {
             throw error;

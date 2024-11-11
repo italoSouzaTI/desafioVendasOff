@@ -17,10 +17,11 @@ export function useRequestLists() {
             const response = await getAll();
             const newItens = response.filter(
                 (item) =>
-                    item.sync_status ||
-                    item.sync_update ||
-                    item.sync_delete ||
-                    item.id_api?.length == 0
+                    (item.sync_status ||
+                        item.sync_update ||
+                        item.sync_delete ||
+                        item.id_api?.length == 0) &&
+                    item.is_sync == false
             );
             return newItens;
         } catch (error) {}

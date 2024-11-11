@@ -34,6 +34,7 @@ export function Lists() {
                 contentContainerStyle={{
                     top: 32,
                     padding: 16,
+                    paddingBottom: 80,
                 }}
                 data={listSales}
                 keyExtractor={(item) => String(item.id)}

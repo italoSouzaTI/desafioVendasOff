@@ -72,19 +72,22 @@ export function CreatingSale() {
                     <Text style={[styles.title, { textAlign: "center" }]}>
                         -------------- RECIBO --------------
                     </Text>
-                    <Text
-                        style={{
-                            fontWeight: "600",
-                            fontSize: 16,
-                            color: "#dc143c",
-                            textAlign: "center",
-                            backgroundColor: "#e897a6",
-                            padding: 2,
-                            borderRadius: 4,
-                        }}
-                    >
-                        Nota removida do sistema
-                    </Text>
+                    {params.data.async_delete == true && (
+                        <Text
+                            style={{
+                                fontWeight: "600",
+                                fontSize: 16,
+                                color: "#dc143c",
+                                textAlign: "center",
+                                backgroundColor: "#e897a6",
+                                padding: 2,
+                                borderRadius: 4,
+                            }}
+                        >
+                            Nota removida do sistema
+                        </Text>
+                    )}
+
                     <View>
                         <Text style={styles.title}>Fornecedor</Text>
                         <Text>{params.data.supplier}</Text>

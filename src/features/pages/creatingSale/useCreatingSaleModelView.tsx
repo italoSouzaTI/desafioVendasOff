@@ -85,8 +85,8 @@ export function useCreatingSaleModelView() {
             "id" | "at_create" | "sync_status" | "sync_update" | "sync_delete"
         >
     ) {
-        console.log("entrei");
         try {
+            //verificar se tem internet
             const response = await create({
                 supplier: data.supplier,
                 id_api: "",
@@ -99,6 +99,7 @@ export function useCreatingSaleModelView() {
                 sync_delete: false,
                 sync_status: true,
                 sync_update: false,
+                is_sync: false,
             });
             Alert.alert(
                 `Sucesso ${response?.insertRowId}`,
@@ -108,27 +109,32 @@ export function useCreatingSaleModelView() {
         } catch (error) {}
     }
     async function handleEdit(data: IDatabaseProps) {
-        const response = await update({
-            id: Number(params.data.id),
-            supplier: data.supplier,
-            id_api: data.id_api ?? "",
-            id_device: data.id_device,
-            account_type: data.account_type,
-            payment: data.payment,
-            value_price: String(data.value_price),
-            maturity: data.maturity,
-            at_create: String(new Date()),
-            sync_delete: params.data.sync_delete,
-            sync_status: true,
-            sync_update: true,
-        });
-        Alert.alert(`Sucesso`, "registro alterado com sucesso.", [
-            { text: "OK", onPress: () => goBack() },
-        ]);
+        console.log(data);
+        try {
+            const response = await update({
+                id: Number(params.data.id),
+                supplier: data.supplier,
+                id_api: params.data.id_api ?? "",
+                id_device: params.data.id_device,
+                account_type: data.account_type,
+                payment: data.payment,
+                value_price: String(data.value_price),
+                maturity: data.maturity,
+                at_create: params.data.at_create,
+                sync_delete: params.data.sync_delete,
+                sync_status: true,
+                sync_update: true,
+                is_sync: false,
+            });
+            Alert.alert(`Sucesso`, "registro alterado com sucesso.", [
+                { text: "OK", onPress: () => goBack() },
+            ]);
+        } catch (error) {
+            console.log("handleEdit", error);
+        }
     }
     async function handleRemove() {
         try {
-            console.log(params.data);
             Alert.alert(`Atenção`, "Deseja realmente deletar esse recibo?", [
                 { text: "Cancelar", style: "cancel" },
                 {
@@ -147,6 +153,7 @@ export function useCreatingSaleModelView() {
                             sync_delete: true,
                             sync_status: true,
                             sync_update: params.data.sync_update,
+                            is_sync: false,
                         });
                         goBack();
                     },

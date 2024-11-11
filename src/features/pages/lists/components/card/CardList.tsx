@@ -16,12 +16,12 @@ export function CardList({ item }: CardListProps) {
                     <Text style={styles.subTitle}>{item.supplier}</Text>
                 </View>
                 <View style={[styles.row, { gap: 8 }]}>
-                    {item.sync_delete && (
+                    {item.sync_delete == true && (
                         <FontAwesome5 name="trash" size={16} color="red" />
                     )}
 
                     <FontAwesome5 name="database" size={16} color="green" />
-                    {item.SYNC_STATUS || item.sync_update ? (
+                    {item.sync_status || item.sync_update ? (
                         <MaterialIcons
                             name="sync-disabled"
                             size={16}

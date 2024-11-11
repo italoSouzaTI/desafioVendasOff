@@ -1,27 +1,18 @@
 import Modal from "react-native-modal";
-import { StyleSheet, Text, View, AppState } from "react-native";
-import { useRequestLists } from "../../features/request";
-import { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { ProgressBar } from "../progressBar/progressBar";
+import { useModalStore } from "../../store/useModalStore";
+
 export function ModalSync() {
-    const { getlistSalesSync } = useRequestLists();
-    const [countItens, setCountItens] = useState<number>(0);
-    useEffect(() => {
-        const refresh = async () => {
-            const aux = await getlistSalesSync();
-            setCountItens((state) => (state = aux?.length));
-        };
-        refresh();
-    }, []);
+    const { current, open, total } = useModalStore((state) => state);
 
     return (
-        <Modal isVisible={true}>
+        <Modal isVisible={open}>
             <View style={styles.container}>
                 <Text style={styles.title}>Sincronizando vendas pendentes</Text>
-
-                <ProgressBar current={0} total={countItens} />
-                <Text style={styles.subtitle}>{`${0}/ ${
-                    countItens < 9 ? "0" + countItens : countItens
+                <ProgressBar current={current} total={total} />
+                <Text style={styles.subtitle}>{`${current}/ ${
+                    total < 9 ? "0" + total : total
                 }`}</Text>
             </View>
         </Modal>

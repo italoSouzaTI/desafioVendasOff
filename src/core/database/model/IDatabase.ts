@@ -11,4 +11,5 @@ export interface IDatabaseProps {
     sync_status: boolean;
     sync_update: boolean;
     sync_delete: boolean;
+    is_sync: boolean;
 }

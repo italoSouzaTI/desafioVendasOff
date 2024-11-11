@@ -11,9 +11,10 @@ export async function initialDatabase(database: SQLiteDatabase) {
         maturity DATETIME NOT NULL,
         value_price TEXT NOT NULL,
         at_create DATETIME NOT NULL,
-        SYNC_STATUS BOOLEAN NOT NULL,
+        sync_status BOOLEAN NOT NULL,
         sync_update BOOLEAN NOT NULL,
-        sync_delete BOOLEAN NOT NULL
+        sync_delete BOOLEAN NOT NULL,
+        is_sync BOOLEAN NOT NULL
         );
         `);
 }
