@@ -8,6 +8,7 @@ import { useSalesDatabase } from "../../../core/database/useSalesDatabase";
 import { IDatabaseProps } from "../../../core/database/model/IDatabase";
 import { useEditRequest, useInsertRequest } from "../../request";
 import { NetInfoContext } from "../../../provider/NetInfoContext";
+import { useRemoveRequest } from "../../request/useRemoveRequest";
 interface SCHEMA {
     supplier: string;
     account_type: string;
@@ -18,9 +19,9 @@ interface SCHEMA {
 export function useCreatingSaleModelView() {
     const { goBack } = useNavigation();
     const { top } = useSafeInsets();
-    const { removeLogic } = useSalesDatabase();
     const { createSaleOff, createSaleOn } = useInsertRequest();
     const { editOff, updataOn } = useEditRequest();
+    const { removeOff, removeOn } = useRemoveRequest();
     const [isLoading, setIsLoading] = useState(false);
     const { isConnect } = useContext(NetInfoContext);
     const { params } = useRoute();
@@ -130,21 +131,11 @@ export function useCreatingSaleModelView() {
                 {
                     text: "OK",
                     onPress: async () => {
-                        await removeLogic({
-                            id: Number(params.data.id),
-                            supplier: params.data.supplier,
-                            id_api: params.data.id_api ?? "",
-                            id_device: params.data.id_device,
-                            account_type: params.data.account_type,
-                            payment: params.data.payment,
-                            value_price: params.data.value_price,
-                            maturity: params.data.maturity,
-                            at_create: params.data.at_create,
-                            sync_delete: true,
-                            sync_status: true,
-                            sync_update: params.data.sync_update,
-                            is_sync: false,
-                        });
+                        if (isConnect) {
+                            await removeOn(params.data);
+                        } else {
+                            await removeOff(params.data);
+                        }
                         goBack();
                     },
                 },
