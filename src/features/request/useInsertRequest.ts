@@ -3,7 +3,7 @@ import { deviceName, manufacturer } from "expo-device";
 import { IDatabaseProps } from "../../core/database/model/IDatabase";
 import { suparbaseConnetion } from "../../core/service/suparbase";
 
-export function insertRequest() {
+export function useInsertRequest() {
     const { create } = useSalesDatabase();
     async function createSaleOff(
         data: Omit<

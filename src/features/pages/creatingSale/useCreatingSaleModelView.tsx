@@ -6,7 +6,7 @@ import { Alert } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { useSalesDatabase } from "../../../core/database/useSalesDatabase";
 import { IDatabaseProps } from "../../../core/database/model/IDatabase";
-import { insertRequest } from "../../request";
+import { useEditRequest, useInsertRequest } from "../../request";
 import { NetInfoContext } from "../../../provider/NetInfoContext";
 interface SCHEMA {
     supplier: string;
@@ -18,8 +18,9 @@ interface SCHEMA {
 export function useCreatingSaleModelView() {
     const { goBack } = useNavigation();
     const { top } = useSafeInsets();
-    const { update, removeLogic } = useSalesDatabase();
-    const { createSaleOff, createSaleOn } = insertRequest();
+    const { removeLogic } = useSalesDatabase();
+    const { createSaleOff, createSaleOn } = useInsertRequest();
+    const { editOff, updataOn } = useEditRequest();
     const [isLoading, setIsLoading] = useState(false);
     const { isConnect } = useContext(NetInfoContext);
     const { params } = useRoute();
@@ -100,28 +101,26 @@ export function useCreatingSaleModelView() {
         }
     }
     async function handleEdit(data: IDatabaseProps) {
-        console.log(data);
+        console.log(params.data.id_api);
         try {
-            const response = await update({
-                id: Number(params.data.id),
-                supplier: data.supplier,
-                id_api: params.data.id_api ?? "",
-                id_device: params.data.id_device,
-                account_type: data.account_type,
-                payment: data.payment,
-                value_price: String(data.value_price),
-                maturity: data.maturity,
-                at_create: params.data.at_create,
-                sync_delete: params.data.sync_delete,
-                sync_status: true,
-                sync_update: true,
-                is_sync: false,
-            });
+            setIsLoading(true);
+            if (
+                isConnect &&
+                params.data.hasOwnProperty("id_api") &&
+                params.data.id_api.length
+            ) {
+                console.log("entrei");
+                await updataOn(data, params.data);
+            } else {
+                await editOff(data, params.data);
+            }
             Alert.alert(`Sucesso`, "registro alterado com sucesso.", [
                 { text: "OK", onPress: () => goBack() },
             ]);
         } catch (error) {
             console.log("handleEdit", error);
+        } finally {
+            setIsLoading(false);
         }
     }
     async function handleRemove() {
