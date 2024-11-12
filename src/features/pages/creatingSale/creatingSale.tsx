@@ -1,4 +1,5 @@
 import {
+    ActivityIndicator,
     ScrollView,
     StyleSheet,
     Text,
@@ -21,6 +22,7 @@ export function CreatingSale() {
         contasData,
         pagamentoData,
         isEdit,
+        isLoading,
         handleRemove,
         goBack,
         handleSubmit,
@@ -236,18 +238,27 @@ export function CreatingSale() {
                         />
                     </ScrollView>
                     <TouchableOpacity
+                        disabled={isLoading}
                         style={styles.save}
                         onPress={handleSubmit(handleSave)}
                     >
-                        <Text
-                            style={{
-                                color: "white",
-                                fontSize: 20,
-                                fontWeight: "bold",
-                            }}
-                        >
-                            Salvar
-                        </Text>
+                        {isLoading ? (
+                            <ActivityIndicator
+                                size={"large"}
+                                color={"white"}
+                                animating={isLoading}
+                            />
+                        ) : (
+                            <Text
+                                style={{
+                                    color: "white",
+                                    fontSize: 20,
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                Salvar
+                            </Text>
+                        )}
                     </TouchableOpacity>
                 </>
             )}

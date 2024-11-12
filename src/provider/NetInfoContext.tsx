@@ -72,7 +72,6 @@ const NetInfoProvider: React.FC<ChildrenNetInfoProps> = ({ children }) => {
     }
     async function updateSyncLocation(data: IDatabaseProps, id: string) {
         try {
-            console.log(data);
             const response = await update({
                 id: Number(id),
                 supplier: data.supplier,
@@ -82,7 +81,7 @@ const NetInfoProvider: React.FC<ChildrenNetInfoProps> = ({ children }) => {
                 payment: data.payment,
                 value_price: String(data.value_price),
                 maturity: data.maturity,
-                at_create: String(new Date()),
+                at_create: data.at_create,
                 sync_delete: data.sync_delete,
                 sync_status: false,
                 sync_update: false,

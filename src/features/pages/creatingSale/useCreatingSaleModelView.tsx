@@ -2,11 +2,12 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSafeInsets } from "../../../hooks/useSafeInsets";
 import { useForm } from "react-hook-form";
 
-import { deviceName, manufacturer } from "expo-device";
 import { Alert } from "react-native";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSalesDatabase } from "../../../core/database/useSalesDatabase";
 import { IDatabaseProps } from "../../../core/database/model/IDatabase";
+import { insertRequest } from "../../request";
+import { NetInfoContext } from "../../../provider/NetInfoContext";
 interface SCHEMA {
     supplier: string;
     account_type: string;
@@ -17,7 +18,10 @@ interface SCHEMA {
 export function useCreatingSaleModelView() {
     const { goBack } = useNavigation();
     const { top } = useSafeInsets();
-    const { create, update, remove, removeLogic } = useSalesDatabase();
+    const { update, removeLogic } = useSalesDatabase();
+    const { createSaleOff, createSaleOn } = insertRequest();
+    const [isLoading, setIsLoading] = useState(false);
+    const { isConnect } = useContext(NetInfoContext);
     const { params } = useRoute();
     const [isEdit, setIsEdit] = useState(false);
     const fornecedorData = [
@@ -79,34 +83,21 @@ export function useCreatingSaleModelView() {
             handleSabeDB(data);
         }
     }
-    async function handleSabeDB(
-        data: Omit<
-            IDatabaseProps,
-            "id" | "at_create" | "sync_status" | "sync_update" | "sync_delete"
-        >
-    ) {
+    async function handleSabeDB(data: IDatabaseProps) {
         try {
-            //verificar se tem internet
-            const response = await create({
-                supplier: data.supplier,
-                id_api: "",
-                id_device: `${deviceName} - ${manufacturer}`,
-                account_type: data.account_type,
-                payment: data.payment,
-                maturity: data.maturity,
-                value_price: String(data.value_price),
-                at_create: String(new Date()),
-                sync_delete: false,
-                sync_status: true,
-                sync_update: false,
-                is_sync: false,
-            });
-            Alert.alert(
-                `Sucesso ${response?.insertRowId}`,
-                "registro inserido com sucesso.",
-                [{ text: "OK", onPress: () => goBack() }]
-            );
-        } catch (error) {}
+            setIsLoading(true);
+            if (isConnect) {
+                await createSaleOn(data);
+            } else {
+                await createSaleOff(data);
+            }
+            Alert.alert(`Sucesso`, "registro inserido com sucesso.", [
+                { text: "OK", onPress: () => goBack() },
+            ]);
+        } catch (error) {
+        } finally {
+            setIsLoading(false);
+        }
     }
     async function handleEdit(data: IDatabaseProps) {
         console.log(data);
@@ -177,6 +168,7 @@ export function useCreatingSaleModelView() {
         contasData,
         pagamentoData,
         isEdit,
+        isLoading,
         handleRemove,
         goBack,
         handleSubmit,
