@@ -7,7 +7,7 @@ export function useEditRequest() {
     async function editOff(data: IDatabaseProps, params: IDatabaseProps) {
         try {
             await update({
-                id: Number(params.data.id),
+                id: Number(params.id),
                 supplier: data.supplier,
                 id_api: params.id_api ?? "",
                 id_device: params.id_device,
@@ -25,8 +25,6 @@ export function useEditRequest() {
     }
     async function updataOn(sale: IDatabaseProps, params: IDatabaseProps) {
         try {
-            console.log("sale", sale);
-            console.log("params", params);
             const response = await suparbaseConnetion
                 .from("sale")
                 .update({
@@ -43,7 +41,6 @@ export function useEditRequest() {
                 })
                 .eq("id_api", Number(params.id_api))
                 .select();
-            console.log("updateOn - response", response);
             if (response.status == 200) {
                 await update({
                     id: Number(params.id),

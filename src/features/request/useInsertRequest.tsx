@@ -32,7 +32,6 @@ export function useInsertRequest() {
     }
     async function createSaleOn(sale: IDatabaseProps) {
         try {
-            console.log("sale", sale);
             const { data, error } = await suparbaseConnetion
                 .from("sale")
                 .insert([
@@ -57,7 +56,6 @@ export function useInsertRequest() {
     }
     async function creteSyncLocation(data: Omit<IDatabaseProps, "id">) {
         try {
-            console.log(data);
             await create({
                 supplier: data.supplier,
                 id_api: data.id_api,
@@ -72,7 +70,6 @@ export function useInsertRequest() {
                 sync_update: false,
                 is_sync: true,
             });
-            console.log("processo on deu certo");
         } catch (error) {
             console.log("response - error", error);
         }

@@ -13,7 +13,6 @@ export function useListSyncModelView() {
     async function list() {
         try {
             const newData = await getlistSalesSync();
-            console.log("newData", newData);
             setListSales(newData);
         } catch (error) {}
     }

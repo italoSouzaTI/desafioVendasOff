@@ -40,7 +40,6 @@ export function useRemoveRequest() {
                 })
                 .eq("id_api", Number(params.id_api))
                 .select();
-            console.log("updateOn - response", response);
             if (response.status == 200) {
                 await update({
                     id: Number(params.id),

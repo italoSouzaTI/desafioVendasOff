@@ -1,10 +1,12 @@
 import Modal from "react-native-modal";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ProgressBar } from "../progressBar/progressBar";
 import { useModalStore } from "../../store/useModalStore";
 
 export function ModalSync() {
-    const { current, open, total } = useModalStore((state) => state);
+    const { current, open, total, handleActionModal } = useModalStore(
+        (state) => state
+    );
 
     return (
         <Modal isVisible={open}>
@@ -14,6 +16,38 @@ export function ModalSync() {
                 <Text style={styles.subtitle}>{`${current}/ ${
                     total < 9 ? "0" + total : total
                 }`}</Text>
+                {current == total && (
+                    <View
+                        style={{
+                            width: "100%",
+                            justifyContent: "flex-end",
+                            alignItems: "flex-end",
+                        }}
+                    >
+                        <TouchableOpacity
+                            style={{
+                                width: 60,
+                                backgroundColor: "red",
+                                borderRadius: 4,
+                                padding: 4,
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}
+                            onPress={() => {
+                                handleActionModal(false);
+                            }}
+                        >
+                            <Text
+                                style={[
+                                    styles.subtitle,
+                                    { color: "white", fontWeight: "bold" },
+                                ]}
+                            >
+                                Fechar
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </View>
         </Modal>
     );

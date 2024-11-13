@@ -75,7 +75,7 @@ export function useCreatingSaleModelView() {
             account_type: params?.data?.account_type || "",
             payment: params?.data?.payment || "",
             maturity: params?.data?.maturity || "",
-            value_price: params?.data?.value_price || "0",
+            value_price: params?.data?.value_price || undefined,
         },
     });
     async function handleSave(data: any) {
@@ -102,7 +102,6 @@ export function useCreatingSaleModelView() {
         }
     }
     async function handleEdit(data: IDatabaseProps) {
-        console.log(params.data.id_api);
         try {
             setIsLoading(true);
             if (
@@ -110,7 +109,6 @@ export function useCreatingSaleModelView() {
                 params.data.hasOwnProperty("id_api") &&
                 params.data.id_api.length
             ) {
-                console.log("entrei");
                 await updataOn(data, params.data);
             } else {
                 await editOff(data, params.data);

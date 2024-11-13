@@ -15,7 +15,8 @@ export const useModalStore = create<State & Action>((set) => ({
     open: false,
     current: 0,
     total: 0,
-    handleActionModal: (value: boolean) => set(() => ({ open: value })),
+    handleActionModal: (value: boolean) =>
+        set(() => (value ? { open: value } : { open: value, current: 0 })),
     handleActionCurrent: () => set((value) => ({ current: value.current + 1 })),
     handleActionTotal: (value: number) => set(() => ({ total: value })),
 }));
