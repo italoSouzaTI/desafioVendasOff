@@ -1,5 +1,6 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Entypo, MaterialIcons } from "@expo/vector-icons";
+import { lightTheme } from "../../../../../core/theme/theme";
 interface StatusAction {
     actionEdit: () => void;
     actionDelete: () => void;
@@ -9,15 +10,29 @@ export function StatusAction({ actionEdit, actionDelete }: StatusAction) {
         <View style={styles.containerRow}>
             <TouchableOpacity
                 onPress={actionEdit}
-                style={[styles.cardAction, { backgroundColor: "#FBC104" }]}
+                style={[
+                    styles.cardAction,
+                    { backgroundColor: lightTheme.activeButton },
+                ]}
             >
-                <MaterialIcons name="edit" size={22} color="#000" />
+                <MaterialIcons
+                    name="edit"
+                    size={lightTheme.size[22]}
+                    color={lightTheme.labelTitle}
+                />
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={actionDelete}
-                style={[styles.cardAction, { backgroundColor: "#fb9a98" }]}
+                style={[
+                    styles.cardAction,
+                    { backgroundColor: lightTheme.iconRemove },
+                ]}
             >
-                <Entypo name="trash" size={22} color="#fff" />
+                <Entypo
+                    name="trash"
+                    size={lightTheme.size[22]}
+                    color={lightTheme.labelButton}
+                />
             </TouchableOpacity>
         </View>
     );
@@ -27,13 +42,13 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         width: "100%",
         justifyContent: "flex-end",
-        gap: 8,
+        gap: lightTheme.size["8"],
     },
     cardAction: {
         width: 30,
         height: 30,
-        borderRadius: 8,
-        backgroundColor: "#fafafa",
+        borderRadius: lightTheme.size["8"],
+        backgroundColor: lightTheme.card,
         justifyContent: "center",
         alignItems: "center",
     },

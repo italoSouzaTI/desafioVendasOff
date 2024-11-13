@@ -12,6 +12,7 @@ import { useCreatingSaleModelView } from "./useCreatingSaleModelView";
 import { StatusAction } from "./components/StatusAction/StatusAction";
 import { price } from "../../../hooks/usePrice";
 import { formatDateGenerate } from "../../../hooks/formatData";
+import { lightTheme } from "../../../core/theme/theme";
 export function CreatingSale() {
     const {
         params,
@@ -30,15 +31,15 @@ export function CreatingSale() {
         setIsEdit,
     } = useCreatingSaleModelView();
     return (
-        <>
+        <View style={styles.container}>
             <Conection />
             {params && !isEdit ? (
                 <View
                     style={{
                         flex: 1,
-                        paddingHorizontal: 16,
+                        paddingHorizontal: lightTheme.size[16],
                         paddingTop: top,
-                        gap: 16,
+                        gap: lightTheme.size[16],
                     }}
                 >
                     <View>
@@ -46,10 +47,10 @@ export function CreatingSale() {
                             style={{
                                 width: 30,
                                 height: 30,
-                                backgroundColor: "white",
+                                backgroundColor: lightTheme.labelButton,
                                 alignItems: "center",
                                 justifyContent: "center",
-                                borderRadius: 8,
+                                borderRadius: lightTheme.size[8],
                             }}
                             onPress={() => {
                                 goBack();
@@ -57,8 +58,8 @@ export function CreatingSale() {
                         >
                             <Feather
                                 name="arrow-left"
-                                size={24}
-                                color="black"
+                                size={lightTheme.size[24]}
+                                color={lightTheme.labelTitle}
                             />
                         </TouchableOpacity>
                     </View>
@@ -78,12 +79,12 @@ export function CreatingSale() {
                         <Text
                             style={{
                                 fontWeight: "600",
-                                fontSize: 16,
-                                color: "#dc143c",
+                                fontSize: lightTheme.size[16],
+                                color: lightTheme.iconRemove,
                                 textAlign: "center",
-                                backgroundColor: "#e897a6",
-                                padding: 2,
-                                borderRadius: 4,
+                                backgroundColor: lightTheme.labelButton,
+                                padding: lightTheme.size[4],
+                                borderRadius: lightTheme.size[4],
                             }}
                         >
                             Nota removida do sistema
@@ -92,23 +93,33 @@ export function CreatingSale() {
 
                     <View>
                         <Text style={styles.title}>Fornecedor</Text>
-                        <Text>{params.data.supplier}</Text>
+                        <Text style={{ color: lightTheme.labelSubTitle }}>
+                            {params.data.supplier}
+                        </Text>
                     </View>
                     <View>
                         <Text style={styles.title}>Tipo da conta</Text>
-                        <Text>{params.data.account_type}</Text>
+                        <Text style={{ color: lightTheme.labelSubTitle }}>
+                            {params.data.account_type}
+                        </Text>
                     </View>
                     <View>
                         <Text style={styles.title}>Tipo do pagamento</Text>
-                        <Text>{params.data.payment}</Text>
+                        <Text style={{ color: lightTheme.labelSubTitle }}>
+                            {params.data.payment}
+                        </Text>
                     </View>
                     <View>
                         <Text style={styles.title}>Valor</Text>
-                        <Text>{price(params.data.value_price)}</Text>
+                        <Text style={{ color: lightTheme.labelSubTitle }}>
+                            {price(params.data.value_price)}
+                        </Text>
                     </View>
                     <View>
                         <Text style={styles.title}>Vencimento</Text>
-                        <Text>{params.data.maturity}</Text>
+                        <Text style={{ color: lightTheme.labelSubTitle }}>
+                            {params.data.maturity}
+                        </Text>
                     </View>
                     <Text style={[styles.title, { textAlign: "center" }]}>
                         -----------------------------------------------------------
@@ -121,7 +132,7 @@ export function CreatingSale() {
                                 Gerado em :{" "}
                                 <Text
                                     style={{
-                                        color: "#808080",
+                                        color: lightTheme.iconDisabled,
                                         fontWeight: "700",
                                     }}
                                 >
@@ -239,7 +250,14 @@ export function CreatingSale() {
                     </ScrollView>
                     <TouchableOpacity
                         disabled={isLoading}
-                        style={styles.save}
+                        style={[
+                            styles.save,
+                            {
+                                backgroundColor: params?.data?.id
+                                    ? lightTheme.activeButton
+                                    : lightTheme.buttonSave,
+                            },
+                        ]}
                         onPress={handleSubmit(handleSave)}
                     >
                         {isLoading ? (
@@ -251,7 +269,9 @@ export function CreatingSale() {
                         ) : (
                             <Text
                                 style={{
-                                    color: "white",
+                                    color: params?.data?.id
+                                        ? lightTheme.labelTitle
+                                        : lightTheme.labelButton,
                                     fontSize: 20,
                                     fontWeight: "bold",
                                 }}
@@ -262,27 +282,33 @@ export function CreatingSale() {
                     </TouchableOpacity>
                 </>
             )}
-        </>
+        </View>
     );
 }
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: lightTheme.background,
+    },
     header: {
         width: "100%",
         minHeight: 50,
-        backgroundColor: "white",
-        paddingHorizontal: 16,
+        backgroundColor: lightTheme.labelButton,
+        paddingHorizontal: lightTheme.size[16],
+        paddingBottom: lightTheme.size["12"],
+        top: lightTheme.size["4"],
         alignItems: "center",
-        gap: 16,
+        gap: lightTheme.size[16],
         flexDirection: "row",
     },
     title: {
         fontWeight: "600",
-        fontSize: 16,
+        fontSize: lightTheme.size[16],
+        color: lightTheme.labelTitle,
     },
     save: {
         width: "100%",
-        height: 60,
-        backgroundColor: "#2A983A",
+        height: lightTheme.size[60],
         justifyContent: "center",
         alignItems: "center",
     },

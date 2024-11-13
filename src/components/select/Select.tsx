@@ -10,6 +10,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
 import { Controller, UseControllerProps } from "react-hook-form";
+import { lightTheme } from "../../core/theme/theme";
 interface InputProps {
     error?: string;
     label: string;
@@ -36,7 +37,9 @@ export function Select({
                             styles.containerInput,
                             {
                                 borderColor:
-                                    error.length > 0 ? "#DC1637" : "#E6E6E6",
+                                    error.length > 0
+                                        ? lightTheme.iconRemove
+                                        : lightTheme.iconDisabled,
                             },
                         ]}
                         onPress={() => {
@@ -49,7 +52,11 @@ export function Select({
                             {...restInput}
                             editable={false}
                         />
-                        <AntDesign name="caretdown" size={18} color="#CDCDCD" />
+                        <AntDesign
+                            name="caretdown"
+                            size={18}
+                            color={lightTheme.iconDisabled}
+                        />
                     </TouchableOpacity>
                     <>
                         {error.length > 0 && (
@@ -61,8 +68,8 @@ export function Select({
                             <ScrollView
                                 contentContainerStyle={{
                                     flexGrow: 1,
-                                    padding: 8,
-                                    gap: 8,
+                                    padding: lightTheme.size["8"],
+                                    gap: lightTheme.size["8"],
                                 }}
                             >
                                 {dataItens.map((item) => (
@@ -90,43 +97,41 @@ export function Select({
 }
 const styles = StyleSheet.create({
     container: {
-        gap: 8,
+        gap: lightTheme.size["8"],
     },
     title: {
         fontWeight: "600",
-        fontSize: 16,
+        fontSize: lightTheme.size["16"],
     },
     containerInput: {
         flexDirection: "row",
         width: "100%",
-        height: 60,
+        height: lightTheme.size["60"],
         backgroundColor: "white",
         borderWidth: 1,
-        borderColor: "#E6E6E6",
-        paddingHorizontal: 16,
-        borderRadius: 8,
+        borderColor: lightTheme.iconDisabled,
+        paddingHorizontal: lightTheme.size["16"],
+        borderRadius: lightTheme.size["8"],
         alignItems: "center",
     },
     listSelect: {
         width: "100%",
-        minHeight: 60,
+        minHeight: lightTheme.size["60"],
         backgroundColor: "white",
-        borderWidth: 1,
-        borderRadius: 8,
-        borderColor: "#E6E6E6",
+        borderRadius: lightTheme.size["8"],
         position: "absolute",
         top: 98,
         zIndex: 99,
     },
     itemSelect: {
-        padding: 8,
+        padding: lightTheme.size["8"],
     },
     input: {
         width: "90%",
     },
     error: {
-        color: "#DC1637",
-        fontSize: 14,
+        color: lightTheme.iconRemove,
+        fontSize: lightTheme.size["14"],
         fontWeight: "bold",
     },
 });

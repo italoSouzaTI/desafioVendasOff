@@ -3,6 +3,7 @@ import { Card } from "../../../../../components";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { IDatabaseProps } from "../../../../../core/database/model/IDatabase";
+import { lightTheme } from "../../../../../core/theme/theme";
 interface CardListProps {
     item: IDatabaseProps;
 }
@@ -15,20 +16,32 @@ export function CardList({ item }: CardListProps) {
                     <Text style={styles.title}>Fornecedor</Text>
                     <Text style={styles.subTitle}>{item.supplier}</Text>
                 </View>
-                <View style={[styles.row, { gap: 8 }]}>
+                <View style={[styles.row, { gap: lightTheme.size["8"] }]}>
                     {item.sync_delete == true && (
-                        <FontAwesome5 name="trash" size={16} color="red" />
+                        <FontAwesome5
+                            name="trash"
+                            size={lightTheme.size["16"]}
+                            color={lightTheme.iconRemove}
+                        />
                     )}
 
-                    <FontAwesome5 name="database" size={16} color="green" />
+                    <FontAwesome5
+                        name="database"
+                        size={lightTheme.size["16"]}
+                        color={lightTheme.buttonSave}
+                    />
                     {item.sync_status || item.sync_update ? (
                         <MaterialIcons
                             name="sync-disabled"
-                            size={16}
-                            color="gray"
+                            size={lightTheme.size["16"]}
+                            color={lightTheme.iconDisabled}
                         />
                     ) : (
-                        <MaterialIcons name="sync" size={16} color="green" />
+                        <MaterialIcons
+                            name="sync"
+                            size={lightTheme.size["16"]}
+                            color={lightTheme.buttonSave}
+                        />
                     )}
                 </View>
             </View>
@@ -57,9 +70,11 @@ export function CardList({ item }: CardListProps) {
 }
 const styles = StyleSheet.create({
     title: {
+        color: lightTheme.labelSubTitle,
         fontWeight: "300",
     },
     subTitle: {
+        color: lightTheme.labelTitle,
         fontWeight: "600",
     },
     row: {

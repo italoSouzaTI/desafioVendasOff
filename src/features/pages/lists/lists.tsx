@@ -1,8 +1,10 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import { Conection, FloatButtom } from "../../../components";
+import { FlatList, StyleSheet, View } from "react-native";
+import { Conection, FloatButtom, Lottie } from "../../../components";
 
 import { useListModelView } from "./useListModelView";
 import { CardList } from "./components/card/CardList";
+import FileEmpty from "../../../assets/svg/empty.json";
+import { lightTheme } from "../../../core/theme/theme";
 export function Lists() {
     const { navigate, listSales } = useListModelView();
     function rendetItem({ item }) {
@@ -10,11 +12,10 @@ export function Lists() {
     }
     function ListEmptyComponent() {
         return (
-            <View style={styles.containerEmpaty}>
-                <Text style={styles.title}>
-                    Nenhum item cadastrado até o momento.
-                </Text>
-            </View>
+            <Lottie
+                url={FileEmpty}
+                label=" Nenhum item cadastrado até o momento."
+            />
         );
     }
     function ItemSeparatorComponent() {
@@ -28,7 +29,7 @@ export function Lists() {
         );
     }
     return (
-        <>
+        <View style={styles.container}>
             <Conection />
             <FlatList
                 contentContainerStyle={{
@@ -47,16 +48,12 @@ export function Lists() {
                     navigate("CreatingSale");
                 }}
             />
-        </>
+        </View>
     );
 }
 const styles = StyleSheet.create({
-    containerEmpaty: {
+    container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    title: {
-        fontWeight: "300",
+        backgroundColor: lightTheme.background,
     },
 });

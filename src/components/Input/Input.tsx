@@ -13,6 +13,7 @@ import {
 } from "react-hook-form";
 import { price } from "../../hooks/usePrice";
 import { formatarData } from "../../hooks/formatData";
+import { lightTheme } from "../../core/theme/theme";
 interface InputProps {
     error?: string;
     label: string;
@@ -44,8 +45,8 @@ export function Input({ label, restInput, formProps, error = "" }: InputProps) {
                                 {
                                     borderColor:
                                         error.length > 0
-                                            ? "#DC1637"
-                                            : "#E6E6E6",
+                                            ? lightTheme.iconRemove
+                                            : lightTheme.iconDisabled,
                                 },
                             ]}
                         >
@@ -70,27 +71,27 @@ export function Input({ label, restInput, formProps, error = "" }: InputProps) {
 }
 const styles = StyleSheet.create({
     container: {
-        gap: 8,
+        gap: lightTheme.size["8"],
     },
     title: {
         fontWeight: "600",
-        fontSize: 16,
+        fontSize: lightTheme.size["16"],
     },
     containerInput: {
         width: "100%",
-        height: 60,
+        height: lightTheme.size["60"],
         backgroundColor: "white",
         borderWidth: 1,
-        paddingHorizontal: 16,
-        borderRadius: 8,
+        paddingHorizontal: lightTheme.size["16"],
+        borderRadius: lightTheme.size["8"],
         justifyContent: "center",
     },
     input: {
         width: "100%",
     },
     error: {
-        color: "#DC1637",
-        fontSize: 14,
+        color: lightTheme.iconRemove,
+        fontSize: lightTheme.size["14"],
         fontWeight: "bold",
     },
 });

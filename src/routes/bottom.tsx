@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ListSync, Lists } from "../features/pages";
+import { lightTheme } from "../core/theme/theme";
 
 const stackBottom = createBottomTabNavigator();
 export function Bottom() {
@@ -9,6 +10,11 @@ export function Bottom() {
             screenOptions={{
                 headerShown: false,
                 tabBarIconStyle: { display: "none" },
+                tabBarActiveTintColor: lightTheme.labelTitle,
+                tabBarInactiveTintColor: lightTheme.labelSubTitle,
+                tabBarStyle: {
+                    backgroundColor: lightTheme.background,
+                },
                 tabBarLabelStyle: {
                     fontWeight: "7500",
                     fontSize: 15,

@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
+import { lightTheme } from "../../core/theme/theme";
 interface Props {
     total: number;
     current: number;
@@ -13,14 +14,14 @@ export function ProgressBar({ current, total }: Props) {
 }
 const styles = StyleSheet.create({
     track: {
-        height: 8,
+        height: lightTheme.size["16"],
         width: "100%",
-        borderRadius: 8,
-        backgroundColor: "#505059",
+        borderRadius: lightTheme.size["8"],
+        backgroundColor: lightTheme.iconDisabled,
     },
     progress: {
-        height: 8,
-        backgroundColor: "#00B37E",
-        borderRadius: 8,
+        height: lightTheme.size["16"],
+        backgroundColor: lightTheme.buttonSave,
+        borderRadius: lightTheme.size["8"],
     },
 });

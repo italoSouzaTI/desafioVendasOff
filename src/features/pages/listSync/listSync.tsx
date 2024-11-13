@@ -1,8 +1,9 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import { Conection } from "../../../components";
+import { FlatList, StyleSheet, View } from "react-native";
+import { Conection, Lottie } from "../../../components";
 import { useListSyncModelView } from "./useListSyncModelView";
 import { CardList } from "../lists/components/card/CardList";
-
+import SyncEmpty from "../../../assets/svg/syncEmpty.json";
+import { lightTheme } from "../../../core/theme/theme";
 export function ListSync() {
     const { listSales } = useListSyncModelView();
     function rendetItem({ item }) {
@@ -10,11 +11,10 @@ export function ListSync() {
     }
     function ListEmptyComponent() {
         return (
-            <View style={styles.containerEmpaty}>
-                <Text style={styles.title}>
-                    Nenhum item a ser sincronizado no momento.
-                </Text>
-            </View>
+            <Lottie
+                url={SyncEmpty}
+                label=" Nenhum item a ser sincronizado no momento."
+            />
         );
     }
     function ItemSeparatorComponent() {
@@ -28,7 +28,7 @@ export function ListSync() {
         );
     }
     return (
-        <>
+        <View style={styles.container}>
             <Conection />
             <FlatList
                 contentContainerStyle={{
@@ -42,16 +42,12 @@ export function ListSync() {
                 ListEmptyComponent={ListEmptyComponent}
                 ItemSeparatorComponent={ItemSeparatorComponent}
             />
-        </>
+        </View>
     );
 }
 const styles = StyleSheet.create({
-    containerEmpaty: {
+    container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    title: {
-        fontWeight: "300",
+        backgroundColor: lightTheme.background,
     },
 });

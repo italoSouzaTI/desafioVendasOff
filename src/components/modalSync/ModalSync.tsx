@@ -2,6 +2,7 @@ import Modal from "react-native-modal";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ProgressBar } from "../progressBar/progressBar";
 import { useModalStore } from "../../store/useModalStore";
+import { lightTheme } from "../../core/theme/theme";
 
 export function ModalSync() {
     const { current, open, total, handleActionModal } = useModalStore(
@@ -13,9 +14,9 @@ export function ModalSync() {
             <View style={styles.container}>
                 <Text style={styles.title}>Sincronizando vendas pendentes</Text>
                 <ProgressBar current={current} total={total} />
-                <Text style={styles.subtitle}>{`${current}/ ${
-                    total < 9 ? "0" + total : total
-                }`}</Text>
+                <Text style={styles.subtitle}>{`${
+                    current < 9 ? "0" + current : current
+                }/${total < 9 ? "0" + total : total}`}</Text>
                 {current == total && (
                     <View
                         style={{
@@ -26,10 +27,10 @@ export function ModalSync() {
                     >
                         <TouchableOpacity
                             style={{
-                                width: 60,
-                                backgroundColor: "red",
-                                borderRadius: 4,
-                                padding: 4,
+                                width: lightTheme.size["60"],
+                                backgroundColor: lightTheme.buttonSave,
+                                borderRadius: lightTheme.size["4"],
+                                padding: lightTheme.size["4"],
                                 justifyContent: "center",
                                 alignItems: "center",
                             }}
@@ -40,10 +41,10 @@ export function ModalSync() {
                             <Text
                                 style={[
                                     styles.subtitle,
-                                    { color: "white", fontWeight: "bold" },
+                                    { color: lightTheme.labelButton },
                                 ]}
                             >
-                                Fechar
+                                Ok
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -57,18 +58,19 @@ const styles = StyleSheet.create({
     container: {
         width: "100%",
         minHeight: 50,
-        borderRadius: 8,
+        borderRadius: lightTheme.size["8"],
         backgroundColor: "white",
-        padding: 16,
-        gap: 16,
+        padding: lightTheme.size["16"],
+        gap: lightTheme.size["16"],
     },
     title: {
         fontWeight: "600",
-        fontSize: 18,
+        fontSize: lightTheme.size["18"],
     },
     subtitle: {
         fontWeight: "400",
-        fontSize: 16,
+        fontSize: lightTheme.size["18"],
         textAlign: "right",
+        color: lightTheme.iconDisabled,
     },
 });
