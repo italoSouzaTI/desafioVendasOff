@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, View } from "react-native";
-import { Conection, Lottie } from "../../../components";
+import { Caption, Conection, Lottie } from "../../../components";
 import { useListSyncModelView } from "./useListSyncModelView";
 import { CardList } from "../lists/components/card/CardList";
 import SyncEmpty from "../../../assets/svg/syncEmpty.json";
@@ -41,6 +41,7 @@ export function ListSync() {
                 renderItem={rendetItem}
                 ListEmptyComponent={ListEmptyComponent}
                 ItemSeparatorComponent={ItemSeparatorComponent}
+                ListHeaderComponent={() => <Caption />}
             />
         </View>
     );

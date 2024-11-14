@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, View } from "react-native";
-import { Conection, FloatButtom, Lottie } from "../../../components";
+import { Caption, Conection, FloatButtom, Lottie } from "../../../components";
 
 import { useListModelView } from "./useListModelView";
 import { CardList } from "./components/card/CardList";
@@ -31,6 +31,7 @@ export function Lists() {
     return (
         <View style={styles.container}>
             <Conection />
+
             <FlatList
                 contentContainerStyle={{
                     top: 32,
@@ -42,6 +43,7 @@ export function Lists() {
                 renderItem={rendetItem}
                 ListEmptyComponent={ListEmptyComponent}
                 ItemSeparatorComponent={ItemSeparatorComponent}
+                ListHeaderComponent={() => <Caption />}
             />
             <FloatButtom
                 onPress={() => {
