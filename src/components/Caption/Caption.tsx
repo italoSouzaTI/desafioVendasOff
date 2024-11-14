@@ -37,15 +37,15 @@ export function Caption() {
                     <View
                         style={[
                             styles.circle,
-                            { backgroundColor: lightTheme.iconDisabled },
+                            { backgroundColor: lightTheme.iconRemove },
                         ]}
                     />
                     <Text
                         style={{
-                            color: lightTheme.iconDisabled,
+                            color: lightTheme.iconRemove,
                         }}
                     >
-                        sincronização pendente
+                        Deletado
                     </Text>
                 </View>
                 <View
@@ -58,15 +58,15 @@ export function Caption() {
                     <View
                         style={[
                             styles.circle,
-                            { backgroundColor: lightTheme.iconRemove },
+                            { backgroundColor: lightTheme.iconDisabled },
                         ]}
                     />
                     <Text
                         style={{
-                            color: lightTheme.iconRemove,
+                            color: lightTheme.iconDisabled,
                         }}
                     >
-                        Deletado
+                        sincronização pendente
                     </Text>
                 </View>
             </View>
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
         width: "100%",
         backgroundColor: lightTheme.bottomTabs,
         padding: lightTheme.size["16"],
+        marginBottom: lightTheme.size["16"],
         borderRadius: lightTheme.size["8"],
         gap: lightTheme.size["8"],
     },
